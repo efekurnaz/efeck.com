@@ -1,2 +1,0 @@
-- name: S3 Sync
-  uses: jakejarvis/s3-sync-action@v0.5.1
