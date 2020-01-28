@@ -1,49 +1,74 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: "html-loader",
-            options: { minimize: true }
-          }
+    entry: './src/javascript/index.js',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js'
+    },
+    mode: 'development',
+    
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
+            {
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader
+                    },
+                    {
+                        loader: "css-loader",
+                    },
+                    {
+                        loader: "postcss-loader"
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            implementation: require("sass")
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            outputPath: 'images'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(woff|woff2|ttf|otf|eot)$/,
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            outputPath: 'fonts'
+                        }
+                    }
+                ]
+            }
         ]
-      },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          'file-loader'
-        ]
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader"
-        ]
-      }
+    },
+    
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "bundle.css"
+        })
     ]
-  },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/index.html",
-      filename: "./index.html"
-    }),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
-    })
-  ]
-}
+};
