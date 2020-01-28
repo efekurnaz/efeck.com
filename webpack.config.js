@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -43,13 +44,15 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.(png|jpe?g|gif|svg)$/,
                 use: [
                     {
-                        loader: "file-loader",
-                        options: {
+                        loader: 'url-loader',
+                        options: { 
+                            limit: 8000, // Convert images < 8kb to base64 strings
+                            name: 'images/[hash]-[name].[ext]',
                             outputPath: 'images'
-                        }
+                        } 
                     }
                 ]
             },
@@ -83,6 +86,9 @@ module.exports = {
         new HtmlWebpackPlugin({
           template: "./src/index.html",
             filename: "./index.html"
-        })
+        }),
+        new CopyWebpackPlugin([
+            {from:'src/images',to:'images'} 
+        ])
     ]
 };
