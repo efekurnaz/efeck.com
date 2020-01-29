@@ -4,24 +4,29 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+      vendor: './src/vendor.js',
+      app: './src/app.js'
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'index.js'
+        filename: '[name].js'
     },
-    mode: 'development',
-    
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
+          {
+            test: /imagesloaded/,
+            loader: 'imports-loader?define=>false&this=>window'
+          },
+          {
+              test: /\.m?js$/,
+              exclude: /(node_modules|bower_components)/,
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  presets: ['@babel/preset-env']
                 }
+              }
             },
             {
                 test: /\.(sa|sc|c)ss$/,
