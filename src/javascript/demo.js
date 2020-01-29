@@ -1,4 +1,4 @@
-var imagesLoaded = require('imagesLoaded');
+import { imagesLoaded } from "imagesLoaded";
 import { gsap } from "gsap";
 
 /**
