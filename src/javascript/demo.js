@@ -1,4 +1,4 @@
-var imagesLoaded = require('imagesLoaded');
+var imagesloaded = require('imagesloaded');
 import { gsap } from "gsap";
 
 /**
@@ -324,7 +324,7 @@ import { gsap } from "gsap";
   // Preload images
   const preloadImages = () => {
       return new Promise((resolve, reject) => {
-          imagesLoaded(document.querySelectorAll('.content__item-img'), {background: true}, resolve);
+          imagesloaded(document.querySelectorAll('.content__item-img'), {background: true}, resolve);
       });
   };
   
